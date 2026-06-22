@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纺织类专业毕业生就业追踪问卷</title>
+<script src="config.js"></script>
+<style>
+:root {
+  --primary: #2c5f8a;
+  --primary-light: #3a7bb8;
+  --primary-dark: #1a3f5c;
+  --accent: #e8913a;
+  --bg: #f0f4f8;
+  --card: #ffffff;
+  --text: #2d3748;
+  --text-light: #718096;
+  --border: #e2e8f0;
+  --success: #38a169;
+  --error: #e53e3e;
+  --radius: 12px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* 顶部导航栏 */
+.topbar {
+  background: var(--primary-dark);
+  color: #fff;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topbar .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+.topbar .brand .icon {
+  font-size: 24px;
+}
+.topbar .org {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* 进度条 */
+.progress-bar-wrapper {
+  background: #fff;
+  padding: 0;
+  box-shadow: var(--shadow);
+}
+.progress-bar {
+  height: 4px;
+  background: var(--primary);
+  transition: width 0.4s ease;
+}
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 24px;
+  font-size: 13px;
+  color: var(--text-light);
+}
+.progress-steps {
+  display: flex;
+  gap: 8px;
+  padding: 0 24px 12px;
+  flex-wrap: wrap;
+}
+.progress-step {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: var(--border);
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+}
+.progress-step.active {
+  background: var(--primary);
+  color: #fff;
+}
+.progress-step.done {
+  background: #c6f6d5;
+  color: #276749;
+}
+.progress-step.skipped {
+  background: #fefcbf;
+  color: #975a16;
+}
+
+/* 主容器 */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+
+/* 卡片 */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px;
+  margin-bottom: 16px;
+}
+
+/* 欢迎页 */
+.welcome { text-align: center; }
+.welcome h1 {
+  font-size: 28px;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+}
+.welcome .version {
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.welcome .meta {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 24px;
+  padding: 12px;
+  background: #f7fafc;
+  border-radius: 8px;
+}
+.welcome .greeting {
+  text-align: left;
+  font-size: 15px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+.welcome .notice {
+  background: #fffbeb;
+  border-left: 3px solid var(--accent);
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 14px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+
+/* 分区标题 */
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title .num {
+  background: var(--primary);
+  color: #fff;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.section-desc {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-bottom: 24px;
+}
+
+/* 题目 */
+.question-block {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+.question-block:last-child { border-bottom: none; }
+.question-number {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  background: #ebf4ff;
+  padding: 2px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+.question-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.question-subtitle {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 12px;
+}
+.q-type-badge {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.q-type-single { background: #ebf8ff; color: #2b6cb0; }
+.q-type-multiple { background: #faf5ff; color: #6b46c1; }
+.q-type-likert { background: #fff5f5; color: #c53030; }
+.q-type-text { background: #f0fff4; color: #276749; }
+
+/* 选项 */
+.options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.option-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.option-item:hover { border-color: var(--primary-light); background: #f7fafc; }
+.option-item.selected { border-color: var(--primary); background: #ebf8ff; }
+.option-item input { display: none; }
+.option-radio, .option-check {
+  width: 20px; height: 20px;
+  border: 2px solid #cbd5e0;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.option-check { border-radius: 4px; }
+.option-item.selected .option-radio,
+.option-item.selected .option-check {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+.option-item.selected .option-radio::after,
+.option-item.selected .option-check::after {
+  content: '';
+  display: block;
+  width: 8px; height: 8px;
+  background: #fff;
+  border-radius: 50%;
+}
+.option-item.selected .option-check::after {
+  border-radius: 1px;
+  content: '✓';
+  color: #fff;
+  font-size: 12px;
+  line-height: 8px;
+  background: none;
+}
+.option-label { flex: 1; font-size: 15px; }
+
+/* Likert */
+.likert-scale {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.likert-item {
+  flex: 1;
+  min-width: 50px;
+  text-align: center;
+  padding: 12px 4px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.likert-item:hover { border-color: var(--primary-light); }
+.likert-item.selected {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+}
+.likert-value { font-size: 20px; font-weight: 700; }
+.likert-label { font-size: 11px; margin-top: 4px; color: var(--text-light); }
+.likert-item.selected .likert-label { color: rgba(255,255,255,0.8); }
+
+/* 文本输入 */
+.text-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color 0.2s;
+}
+.text-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(44,95,138,0.1);
+}
+
+/* 其他输入 */
+.other-input {
+  margin-top: 8px;
+  margin-left: 32px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  width: calc(100% - 32px);
+  display: none;
+}
+.other-input.show { display: block; }
+
+/* 按钮 */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+.btn {
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-primary:hover { background: var(--primary-light); }
+.btn-primary:disabled { background: #a0aec0; cursor: not-allowed; }
+.btn-outline {
+  background: #fff;
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+}
+.btn-outline:hover { background: #ebf4ff; }
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-accent:hover { background: #d47925; }
+
+/* 感谢页 */
+.thankyou { text-align: center; padding: 60px 20px; }
+.thankyou .icon { font-size: 64px; margin-bottom: 20px; }
+.thankyou h2 { font-size: 24px; color: var(--primary-dark); margin-bottom: 12px; }
+.thankyou p { color: var(--text-light); font-size: 15px; }
+
+/* 响应式 */
+@media (max-width: 600px) {
+  .container { padding: 12px 8px 60px; }
+  .card { padding: 20px 16px; }
+  .welcome h1 { font-size: 22px; }
+  .likert-scale { flex-direction: column; }
+  .likert-item { flex-direction: row; display: flex; align-items: center; gap: 8px; }
+  .likert-value { font-size: 16px; }
+}
+
+/* 加载动画 */
+.loading {
+  display: flex; justify-content: center; padding: 40px;
+}
+.spinner {
+  width: 40px; height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 提示 */
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--success);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  animation: slideIn 0.3s ease;
+}
+.toast.error { background: var(--error); }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部栏 -->
+<div class="topbar">
+  <div class="brand">
+    <span class="icon">📋</span>
+    <span>纺织类专业毕业生就业追踪问卷</span>
+  </div>
+  <div class="org">江苏工程职业技术学院 | 南通市科技创新智库课题组</div>
+</div>
+
+<!-- 进度条 -->
+<div class="progress-bar-wrapper" id="progressWrapper" style="display:none">
+  <div class="progress-bar" id="progressBar" style="width:0%"></div>
+  <div class="progress-info">
+    <span id="progressLabel">第 0 / 0 部分</span>
+    <span id="answeredCount">已答 0 题</span>
+  </div>
+  <div class="progress-steps" id="progressSteps"></div>
+</div>
+
+<!-- 主内容 -->
+<div class="container" id="app"></div>
+
+<script>
+// ============================================================
+// 问卷结构
+// ============================================================
+const SURVEY_SECTIONS = [
+  {
+    id: "A", title: "基本信息",
+    questions: [
+      {id:"A1",type:"single",title:"您的毕业年份：",options:["2025届","2024届","2023届","2022届","2021届","2020届及以前"]},
+      {id:"A2",type:"single",title:"您在校期间所学专业：",options:["现代纺织技术","纺织品设计","染整技术","服装设计与工艺","纺织品检验与贸易","机电一体化（纺织方向）","电子商务/市场营销","其他"],hasOther:true},
+      {id:"A3",type:"single",title:"您的性别：",options:["男","女","不愿透露"]},
+      {id:"A4",type:"single",title:"您的年龄（选填）：",options:["20岁及以下","21-25岁","26-30岁","31-35岁","35岁以上"],optional:true},
+      {id:"A5",type:"single",title:"您当前的就业状态：",options:["已就业（含灵活就业）","待业/求职中","升学深造（专升本/考研等）","自主创业","备考公务员/事业单位"]},
+      {id:"A6",type:"single",title:"您的学历层次：",options:["专科（高职）","专升本在读或已毕业","自考/成人本科","硕士及以上"]},
+      {id:"A7",type:"single",title:"您当前工作所在城市：",options:["南通市区（含通州、海门）","南通下辖县市（如东/启东/海安/如皋）","江苏省内其他城市","长三角其他省市（上海/浙江/安徽）","国内其他地区"]},
+      {id:"A8",type:"single",title:"您家庭的户籍所在地：",options:["南通市区","南通下辖县市","江苏省内其他城市","外省"]},
+    ]
+  },
+  {
+    id:"B", title:"就业去向与工作现状",
+    questions:[
+      {id:"B1",type:"single",title:"您当前（或最近一份）工作的单位类型：",options:["纺织制造企业（纺纱/织造/印染）","服装加工企业","家纺企业","非纺织类制造企业","电商/互联网企业","商贸/批发零售","服务业（餐饮/物流/物业等）","建筑/房地产","机关/事业单位","其他"],hasOther:true},
+      {id:"B2",type:"single",title:"您所在单位的规模：",options:["50人以下","50-199人","200-499人","500-999人","1000人以上","不清楚"]},
+      {id:"B3",type:"single",title:"您目前从事的岗位类型：",options:["一线生产操作","设备维护/技术","质检/品控","设计/研发","生产管理/调度","销售/客服","仓储/物流","行政管理/财务","IT/数字化/AI相关","其他"],hasOther:true},
+      {id:"B4",type:"likert",title:"您对当前薪资与工作付出的匹配度评价：",labels:["远低于付出","略低于付出","基本匹配","略高于付出","远高于付出"]},
+      {id:"B5",type:"likert",title:"您当前工作与在校所学专业的对口程度：",labels:["完全不相关","有一点关联","部分相关","比较对口","完全对口"]},
+      {id:"B6",type:"multiple",title:"如果您未从事纺织/制造行业，主要原因是？",subtitle:"（从事本行业的同学请跳过）",options:["薪资待遇不理想","工作环境不满意","所在城市纺织行业就业机会少","对纺织行业发展前景不看好","个人兴趣不在制造业","找到了更好的机会","家人/朋友建议转行","其他"],hasOther:true,optional:true},
+      {id:"B7",type:"single",title:"毕业至今，您换过几次工作？",options:["0次（仍在第一份工作）","1次","2次","3次","4次及以上"]},
+      {id:"B8",type:"single",title:"您是通过什么渠道找到当前/最近一份工作的？",options:["校园招聘/学校推荐","网络招聘平台（BOSS直聘/前程无忧等）","亲友介绍","企业直招/社招","实习留用","自主创业","其他"],hasOther:true},
+      {id:"B9",type:"single",title:"您第一份工作从毕业到入职间隔了多长时间？",options:["毕业前已确定","1个月内","1-3个月","3-6个月","6个月以上","至今未就业"]},
+    ]
+  },
+  {
+    id:"C", title:"能力匹配与课程反馈",
+    questions:[
+      {id:"C1",type:"likert",title:"您认为在校期间所学内容与当前工作的匹配程度：",labels:["完全不匹配","不太匹配","一般","比较匹配","非常匹配"]},
+      {id:"C2",type:"multiple",title:"在校期间，您是否有机会学习AI工具或数字技术的使用？",options:["专业课中包含AI/数字工具教学","选修过相关课程","参加过相关培训或讲座","自学过","几乎没有接触过","其他"],hasOther:true},
+      {id:"C3",type:"single",title:"您当前工作中是否需要使用AI或数字工具？",options:["经常使用，是工作的核心部分","偶尔使用","很少使用但未来可能需要","完全不需要"]},
+      {id:"C4",type:"multiple",title:"您在工作中使用过哪些AI或数字工具？",options:["AI设计工具（如Midjourney/Stable Diffusion/稿定AI等）","ERP/MES/生产管理系统","AI辅助质检系统","数据分析工具（Excel高级功能/Python/BI工具等）","办公AI助手（如ChatGPT/文心一言/豆包等）","CAD/CAM等专业软件","智能设备操作面板/人机界面","未使用任何AI或数字工具","其他"],hasOther:true},
+      {id:"C5",type:"multiple",title:"入职时您感觉自己最欠缺哪些能力？",options:["专业技能（纺织工艺/设备操作等）","AI/数字工具使用能力","数据分析处理能力","沟通协调能力","问题分析与解决能力","抗压与情绪管理能力","团队协作能力","英语/外语能力","写作与表达能力","其他"],hasOther:true},
+      {id:"C6",type:"multiple",title:"您认为学校最应该加强哪些方面的教学？",options:["AI工具实训（如图像生成/数据分析等）","工业数据采集与分析","智能设备操作与维护","智能制造基础知识","传统纺织工艺技能","企业实习实践环节","职业素养与职业规划","创新创业教育","跨学科融合课程（纺织+IT+管理）","其他"],hasOther:true},
+      {id:"C7",type:"multiple",title:"工作中您遇到的最大技能挑战是什么？",options:["不熟悉AI工具/系统操作","岗位技能更新太快跟不上","理论知识够但动手能力不足","需要跨领域知识但学校没教","与同事/上级沟通协调困难","工作任务超出预期能力范围","没有遇到明显挑战","其他"],hasOther:true},
+      {id:"C8",type:"multiple",title:"您认为企业在招聘高职毕业生时最看重什么？",options:["专业对口程度","动手实操能力","学习能力与可塑性","职业态度与稳定性","AI/数字工具使用能力","沟通表达能力","实习经历","证书/竞赛获奖","不了解","其他"],hasOther:true},
+      {id:"C9",type:"multiple",title:"毕业至今，您是否新获得了与纺织或AI相关的职业资格证书或技能认证？",options:["考取了纺织类证书","考取了AI/数字化类证书（如Python、数据分析等）","正在备考中","计划考取","暂无计划"]},
+      {id:"C10",type:"single",title:"在校期间，您参加过几次企业实习？",options:["0次","1次（学校安排的短期见习）","1次（3个月以上的顶岗实习）","2次及以上","自主联系的长期实习"]},
+      {id:"C11",type:"likert",title:"您认为学校安排的实习对就业帮助有多大？",labels:["完全没帮助","帮助不大","有一定帮助","帮助较大","帮助非常大"],hasZero:true,zeroLabel:"未参加过实习"},
+      {id:"C12",type:"multiple",title:"如果学校提供AI/数字技能方面的短期培训，您最希望学什么？",options:["AI图像生成与设计","工业数据分析与可视化","智能设备编程与操作","Python编程基础","数字化工厂管理","办公AI工具应用","电商直播与数字营销","其他"],hasOther:true},
+      {id:"C13",type:"single",title:"您在校期间学到的AI/数字技能，在工作后平均多久才开始真正用上？",subtitle:"（已使用者回答）",options:["入职前就已掌握并在工作中直接使用","入职后1个月内开始使用","入职后1-3个月","入职后3-6个月","入职半年以上才用到","目前工作用不到"],optional:true},
+    ]
+  },
+  {
+    id:"D", title:"职业发展与满意度",
+    questions:[
+      {id:"D1",type:"likert",title:"您对当前职业的整体满意度：",labels:["非常不满意","不太满意","一般","比较满意","非常满意"]},
+      {id:"D2",type:"likert",title:"您对当前薪资待遇的满意度：",labels:["非常不满意","不太满意","一般","比较满意","非常满意"]},
+      {id:"D3",type:"likert",title:"您对当前工作环境的满意度：",labels:["非常不满意","不太满意","一般","比较满意","非常满意"]},
+      {id:"D4",type:"single",title:"您对当前工作最满意的是什么？",options:["工作内容与专业对口","同事关系和团队氛围","学习成长机会","工作稳定性","工作时间/弹性","地理位置/通勤便利","其他"],hasOther:true},
+      {id:"D5",type:"single",title:"您的税前月薪（含基本工资和绩效）：",options:["3000元以下","3000-4999元","5000-6999元","7000-9999元","10000-14999元","15000元以上"]},
+      {id:"D6",type:"single",title:"未来3年，您是否打算继续留在纺织/制造业？",options:["肯定会留下","倾向于留下","不确定/观望","倾向于离开","肯定会离开"]},
+      {id:"D7",type:"multiple",title:"如果您打算离开纺织/制造业，主要原因是什么？",subtitle:"（打算留下的同学请跳过）",options:["薪资增长空间有限","职业晋升通道不清晰","工作环境/条件不满意","行业前景不乐观","个人兴趣转变","家庭/生活原因","想去新兴行业（如互联网/AI等）","其他"],hasOther:true,optional:true},
+      {id:"D8",type:"single",title:"入职以来，您是否获得过企业提供的在职培训？",options:["有，且培训内容与AI/数字技能相关","有，但主要是传统岗位技能培训","几乎没有","完全没有"]},
+      {id:"D9",type:"likert",title:"您对在职培训的效果评价：",labels:["非常差","比较差","一般","比较好","非常好"],hasZero:true,zeroLabel:"未参加过培训"},
+      {id:"D10",type:"multiple",title:"您认为当前工作中最需要提升的技能是什么？",options:["AI工具操作","数据分析处理","智能设备操作","管理协调能力","沟通表达能力","纺织专业技能","其他"],hasOther:true},
+    ]
+  },
+  {
+    id:"E", title:"反馈与建议",
+    questions:[
+      {id:"E2",type:"single",title:"如果母校开设AI/数字化技能相关的短期培训或证书课程，您是否有兴趣参加？",options:["非常感兴趣，愿意付费参加","比较感兴趣，希望免费参加","一般，看具体内容再决定","不太感兴趣","完全不感兴趣"]},
+      {id:"E3",type:"single",title:"您是否愿意向学弟学妹推荐纺织类专业？",options:["非常愿意","愿意","不确定","不太愿意","完全不愿意"]},
+      {id:"E1",type:"text",title:"您对母校课程设置或纺织行业吸引人才方面有什么建议？",subtitle:"（选填，一句话即可）",optional:true},
+    ]
+  },
+];
+
+// ============================================================
+// 状态管理
+// ============================================================
+const API_BASE = CONFIG.API_BASE;
+let answers = {};
+let currentSectionIndex = 0;
+let startTime = new Date().toISOString();
+let sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
+
+// 判断哪些部分可见
+function getVisibleSections() {
+  const a5 = answers['A5'];
+  const isEmployed = a5 === '已就业（含灵活就业）' || a5 === '自主创业';
+  const isStudying = a5 === '升学深造（专升本/考研等）';
+  const isExamPrep = a5 === '备考公务员/事业单位';
+
+  return SURVEY_SECTIONS.filter(s => {
+    if (s.id === 'A' || s.id === 'E') return true;
+    if (s.id === 'B' || s.id === 'D') return isEmployed;
+    if (s.id === 'C') return isEmployed || a5 === '待业/求职中';
+    return true;
+  });
+}
+
+// 渲染
+function render(submitted) {
+  const app = document.getElementById('app');
+  const visibleSections = getVisibleSections();
+
+  if (currentSectionIndex === 0) {
+    renderWelcome(app);
+  } else if (currentSectionIndex > visibleSections.length) {
+    renderThankYou(app, submitted);
+  } else {
+    renderSection(app, visibleSections);
+  }
+
+  updateProgress(visibleSections);
+}
+
+function updateProgress(visibleSections) {
+  const wrapper = document.getElementById('progressWrapper');
+  const bar = document.getElementById('progressBar');
+  const label = document.getElementById('progressLabel');
+  const steps = document.getElementById('progressSteps');
+
+  if (currentSectionIndex === 0) {
+    wrapper.style.display = 'none';
+    return;
+  }
+
+  wrapper.style.display = 'block';
+  const totalSections = visibleSections.length;
+  const progress = currentSectionIndex > totalSections
+    ? 100
+    : Math.round((currentSectionIndex / (totalSections + 1)) * 100);
+  bar.style.width = progress + '%';
+
+  if (currentSectionIndex > totalSections) {
+    label.textContent = '已完成';
+  } else {
+    label.textContent = `第 ${currentSectionIndex} / ${totalSections} 部分：${visibleSections[currentSectionIndex - 1].title}`;
+  }
+
+  // 构建步骤指示器
+  let stepsHtml = '';
+  visibleSections.forEach((s, i) => {
+    let cls = '';
+    if (i < currentSectionIndex - 1) cls = 'done';
+    else if (i === currentSectionIndex - 1) cls = 'active';
+    stepsHtml += `<button class="progress-step ${cls}" onclick="goToSection(${i})">${s.id}. ${s.title}</button>`;
+  });
+  steps.innerHTML = stepsHtml;
+
+  // 计数已回答题目
+  let answered = 0;
+  visibleSections.forEach(s => {
+    s.questions.forEach(q => {
+      if (isAnswered(q)) answered++;
+    });
+  });
+  document.getElementById('answeredCount').textContent = `已答 ${answered} 题`;
+}
+
+// ============================================================
+// 欢迎页
+// ============================================================
+function renderWelcome(app) {
+  app.innerHTML = `
+    <div class="card welcome">
+      <h1>纺织类专业毕业生就业追踪问卷</h1>
+      <div class="version">（优化版 V3）</div>
+      <div class="meta">
+        南通市科技创新智库课题"人工智能赋能南通纺织产业转型中的技能人才供需矛盾与对策研究"课题组<br>
+        江苏工程职业技术学院
+      </div>
+      <div class="greeting">
+        <p><strong>亲爱的校友/同学：</strong></p>
+        <p>您好！本问卷是南通市科技创新智库课题"人工智能赋能南通纺织产业转型中的技能人才供需矛盾与对策研究"的重要组成部分，旨在了解纺织类专业毕业生的就业去向、工作体验和能力需求，为母校优化人才培养方案、提升教学质量提供真实反馈。</p>
+      </div>
+      <div class="notice">
+        <strong>📌 温馨提示：</strong> 您的每一条回答都非常宝贵，将直接影响我们对人才培养改革的建议。本问卷实行匿名填答，所有数据仅用于学术研究和教学改进，不涉及个人隐私。问卷预计填写时间为<strong>6-8分钟</strong>。
+      </div>
+      <button class="btn btn-primary" onclick="startSurvey()" style="font-size:17px; padding:14px 48px;">
+        开始填写问卷
+      </button>
+      <p style="margin-top:16px;font-size:13px;color:var(--text-light)">
+        衷心感谢您的支持！祝工作顺利、前程似锦！
+      </p>
+    </div>
+  `;
+}
+
+function startSurvey() {
+  startTime = new Date().toISOString();
+  currentSectionIndex = 1;
+  document.getElementById('progressWrapper').style.display = 'block';
+  render();
+  window.scrollTo(0, 0);
+}
+
+function goToSection(index) {
+  currentSectionIndex = index + 1;
+  render();
+  window.scrollTo(0, 0);
+}
+
+// ============================================================
+// 渲染分区
+// ============================================================
+function renderSection(app, visibleSections) {
+  const section = visibleSections[currentSectionIndex - 1];
+  const isLast = currentSectionIndex >= visibleSections.length;
+
+  let html = `<div class="card">`;
+  html += `<div class="section-title"><span class="num">${section.id}</span>${section.title}</div>`;
+  html += `<div class="section-desc">请认真填写以下问题</div>`;
+
+  section.questions.forEach((q, qi) => {
+    html += renderQuestion(q);
+  });
+
+  html += `<div class="buttons">`;
+  html += `<button class="btn btn-outline" onclick="prevSection()">← 上一部分</button>`;
+  html += `<button class="btn ${isLast ? 'btn-accent' : 'btn-primary'}" onclick="nextSection()">`;
+  html += isLast ? '提交问卷 ✓' : '下一部分 →';
+  html += `</button></div></div>`;
+
+  app.innerHTML = html;
+}
+
+// ============================================================
+// 渲染题目
+// ============================================================
+function renderQuestion(q) {
+  let html = `<div class="question-block">`;
+  html += `<span class="question-number">${q.id}</span>`;
+
+  // 题型标记
+  const typeLabels = {single:'单选', multiple:'多选', likert:'量表', text:'开放题'};
+  const typeClasses = {single:'q-type-single', multiple:'q-type-multiple', likert:'q-type-likert', text:'q-type-text'};
+  html += `<span class="q-type-badge ${typeClasses[q.type]}">${typeLabels[q.type]}</span>`;
+  if (q.optional) html += `<span class="q-type-badge" style="background:#fefcbf;color:#975a16">选填</span>`;
+
+  html += `<div class="question-title">${q.title}</div>`;
+  if (q.subtitle) html += `<div class="question-subtitle">${q.subtitle}</div>`;
+
+  if (q.type === 'single') {
+    html += renderSingleOptions(q);
+  } else if (q.type === 'multiple') {
+    html += renderMultipleOptions(q);
+  } else if (q.type === 'likert') {
+    html += renderLikertScale(q);
+  } else if (q.type === 'text') {
+    html += renderTextInput(q);
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+function renderSingleOptions(q) {
+  let html = `<div class="options" id="options-${q.id}">`;
+  const currentVal = answers[q.id] || '';
+  q.options.forEach((opt, i) => {
+    html += `
+      <div class="option-item${currentVal === opt ? ' selected' : ''}"
+           onclick="selectSingle('${q.id}', '${escapeHtml(opt)}')"
+           data-value="${escapeHtml(opt)}">
+        <div class="option-radio"></div>
+        <span class="option-label">${opt}</span>
+      </div>`;
+  });
+  if (q.hasOther) {
+    const otherVal = (typeof answers[q.id+'_other'] === 'string') ? answers[q.id+'_other'] : '';
+    const otherSelected = currentVal === '其他';
+    html += `
+      <div class="option-item${otherSelected ? ' selected' : ''}"
+           onclick="selectSingle('${q.id}', '其他')" data-value="其他">
+        <div class="option-radio"></div>
+        <span class="option-label">其他（请注明）</span>
+      </div>
+      <input type="text" class="other-input${otherSelected ? ' show' : ''}"
+             id="other-${q.id}" placeholder="请注明..."
+             value="${escapeHtml(otherVal)}"
+             oninput="updateOther('${q.id}')" onclick="event.stopPropagation(); selectSingle('${q.id}', '其他')">`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function renderMultipleOptions(q) {
+  let html = `<div class="options" id="options-${q.id}">`;
+  const currentVals = answers[q.id] || [];
+  q.options.forEach((opt, i) => {
+    html += `
+      <div class="option-item${currentVals.includes(opt) ? ' selected' : ''}"
+           onclick="toggleMultiple('${q.id}', '${escapeHtml(opt)}')"
+           data-value="${escapeHtml(opt)}">
+        <div class="option-check"></div>
+        <span class="option-label">${opt}</span>
+      </div>`;
+  });
+  if (q.hasOther) {
+    const otherVal = (typeof answers[q.id+'_other'] === 'string') ? answers[q.id+'_other'] : '';
+    const otherSelected = currentVals.includes('其他');
+    html += `
+      <div class="option-item${otherSelected ? ' selected' : ''}"
+           onclick="toggleMultiple('${q.id}', '其他')" data-value="其他">
+        <div class="option-check"></div>
+        <span class="option-label">其他（请注明）</span>
+      </div>
+      <input type="text" class="other-input${otherSelected ? ' show' : ''}"
+             id="other-${q.id}" placeholder="请注明..."
+             value="${escapeHtml(otherVal)}"
+             oninput="updateOther('${q.id}')" onclick="event.stopPropagation()">`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function renderLikertScale(q) {
+  let html = `<div class="likert-scale" id="likert-${q.id}">`;
+  const currentVal = answers[q.id];
+
+  if (q.hasZero) {
+    html += `
+      <div class="likert-item${currentVal === '0' ? ' selected' : ''}"
+           onclick="selectLikert('${q.id}', '0')" data-value="0">
+        <div class="likert-value">0</div>
+        <div class="likert-label">${q.zeroLabel}</div>
+      </div>`;
+  }
+
+  q.labels.forEach((label, i) => {
+    const val = i + 1;
+    html += `
+      <div class="likert-item${currentVal == val ? ' selected' : ''}"
+           onclick="selectLikert('${q.id}', ${val})" data-value="${val}">
+        <div class="likert-value">${val}</div>
+        <div class="likert-label">${label}</div>
+      </div>`;
+  });
+
+  html += `</div>`;
+  return html;
+}
+
+function renderTextInput(q) {
+  const val = answers[q.id] || '';
+  return `<textarea class="text-input" id="text-${q.id}"
+            placeholder="请输入您的建议..." oninput="updateText('${q.id}')">${escapeHtml(val)}</textarea>`;
+}
+
+function escapeHtml(str) {
+  return (str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// ============================================================
+// 交互处理
+// ============================================================
+function selectSingle(qid, value) {
+  answers[qid] = value;
+  if (answers[qid+'_other'] && value !== '其他') {
+    answers[qid+'_other'] = '';
+  }
+  render();
+  // 如果A5改变了，可能需要调整显示的部分
+  if (qid === 'A5') {
+    resetSectionsAfterA();
+  }
+}
+
+function toggleMultiple(qid, value) {
+  if (!Array.isArray(answers[qid])) answers[qid] = [];
+  const idx = answers[qid].indexOf(value);
+  if (idx >= 0) {
+    answers[qid].splice(idx, 1);
+    if (value === '其他') answers[qid+'_other'] = '';
+  } else {
+    answers[qid].push(value);
+  }
+  render();
+}
+
+function selectLikert(qid, value) {
+  answers[qid] = value;
+  render();
+}
+
+function updateOther(qid) {
+  const input = document.getElementById('other-' + qid);
+  if (input) {
+    answers[qid+'_other'] = input.value;
+  }
+}
+
+function updateText(qid) {
+  const input = document.getElementById('text-' + qid);
+  if (input) {
+    answers[qid] = input.value;
+  }
+}
+
+function resetSectionsAfterA() {
+  // 清除B/C/D/E部分并根据A5重新渲染
+  Object.keys(answers).forEach(k => {
+    if (k.startsWith('B') || k.startsWith('C') || k.startsWith('D') || k.startsWith('E')) {
+      if (!k.startsWith('_')) delete answers[k];
+    }
+  });
+}
+
+function isAnswered(q) {
+  if (q.type === 'text') return !!answers[q.id];
+  if (q.type === 'likert') return answers[q.id] !== undefined && answers[q.id] !== null && answers[q.id] !== '';
+  if (q.type === 'multiple') return Array.isArray(answers[q.id]) && answers[q.id].length > 0;
+  return !!answers[q.id];
+}
+
+// ============================================================
+// 导航
+// ============================================================
+function prevSection() {
+  if (currentSectionIndex > 1) {
+    currentSectionIndex--;
+    render();
+    window.scrollTo(0, 0);
+  }
+}
+
+function nextSection() {
+  const visibleSections = getVisibleSections();
+
+  // 验证当前部分必答题
+  const section = visibleSections[currentSectionIndex - 1];
+  const unanswered = section.questions.filter(q => !q.optional && !isAnswered(q));
+  if (unanswered.length > 0) {
+    showToast(`请完成以下必答题：${unanswered.map(q => q.id).join(', ')}`, true);
+    return;
+  }
+
+  if (currentSectionIndex >= visibleSections.length) {
+    // 提交
+    submitSurvey();
+    return;
+  }
+
+  currentSectionIndex++;
+  render();
+  window.scrollTo(0, 0);
+}
+
+// ============================================================
+// 提交
+// ============================================================
+async function submitSurvey() {
+  const submitBtn = document.querySelector('.btn-accent');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = '提交中...';
+  }
+
+  // 添加元数据
+  answers['_meta_start'] = startTime;
+  answers['_meta_end'] = new Date().toISOString();
+
+  // 始终保存到localStorage（防止提交失败丢失数据）
+  saveToLocal();
+
+  let submitted = false;
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
+    const resp = await fetch(API_BASE + '/api/submit', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        session_id: sessionId,
+        start_time: startTime,
+        answers: answers
+      }),
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    const data = await resp.json();
+    if (data.success) {
+      submitted = true;
+      // 提交成功后清除localStorage中的这条记录
+      removeFromLocal();
+    }
+  } catch (e) {
+    // 后端不可用时，数据已保存在localStorage，不算失败
+    console.log('后端暂不可用，数据已保存到本地');
+  }
+
+  currentSectionIndex = getVisibleSections().length + 1;
+  render(submitted);
+}
+
+function saveToLocal() {
+  try {
+    let records = JSON.parse(localStorage.getItem('textile_survey_records') || '[]');
+    records.push({id: sessionId, time: new Date().toISOString(), answers: answers});
+    localStorage.setItem('textile_survey_records', JSON.stringify(records));
+  } catch(e) {}
+}
+
+function removeFromLocal() {
+  try {
+    let records = JSON.parse(localStorage.getItem('textile_survey_records') || '[]');
+    records = records.filter(r => r.id !== sessionId);
+    localStorage.setItem('textile_survey_records', JSON.stringify(records));
+  } catch(e) {}
+}
+
+function renderThankYou(app, submitted) {
+  app.innerHTML = `
+    <div class="card thankyou">
+      <div class="icon">🎉</div>
+      <h2>${submitted ? '问卷提交成功！' : '问卷填写完成！'}</h2>
+      <p>衷心感谢您的宝贵时间与真诚分享！</p>
+      <p style="margin-top:12px;">您的反馈将帮助母校更好地培养适应产业变革的高素质人才。</p>
+      ${!submitted ? '<p style="margin-top:12px;font-size:13px;color:var(--text-light)">（数据已安全保存）</p>' : ''}
+      ${answers['A5'] === '升学深造（专升本/考研等）' || answers['A5'] === '备考公务员/事业单位'
+        ? '<p style="margin-top:16px;color:var(--primary)">祝您深造/备考顺利，前程似锦！</p>'
+        : '<p style="margin-top:16px;color:var(--primary)">祝工作顺利，前程似锦！</p>'}
+    </div>
+  `;
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('progressLabel').textContent = '已完成';
+}
+
+// ============================================================
+// Toast
+// ============================================================
+function showToast(msg, isError) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const toast = document.createElement('div');
+  toast.className = 'toast' + (isError ? ' error' : '');
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+// ============================================================
+// 初始化
+// ============================================================
+render();
+</script>
+</body>
+</html>
