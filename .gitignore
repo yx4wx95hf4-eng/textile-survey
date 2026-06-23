@@ -1,0 +1,12 @@
+# 忽略后端文件（后端部署到 Google Apps Script）
+backend/
+*.pyc
+*.db
+__pycache__/
+
+# 忽略 WorkBuddy 配置
+.workbuddy/
+
+# 忽略临时文件
+*.log
+*.tmp
